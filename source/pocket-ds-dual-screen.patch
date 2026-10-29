@@ -1,0 +1,779 @@
+diff --git a/app/src/main/kotlin/com/pokedaisy/app/DualScreenPresentation.kt b/app/src/main/kotlin/com/pokedaisy/app/DualScreenPresentation.kt
+index 9e1a266..1737fe2 100644
+--- a/app/src/main/kotlin/com/pokedaisy/app/DualScreenPresentation.kt
++++ b/app/src/main/kotlin/com/pokedaisy/app/DualScreenPresentation.kt
+@@ -31,13 +31,22 @@ import com.pokedaisy.app.companion.ui.CompanionScreen
+  * supplies its own ViewTree lifecycle / saved-state / view-model owners for
+  * Compose to run - on a frame around the content, so a view that brings its
+  * own (the game's stage) keeps them when it moves back to the activity.
++ * Where a Presentation can't go (the default display: the AYANEO Pocket DS's
++ * bottom screen), [SecondScreenActivity] shows the same content instead.
+  */
+ class DualScreenPresentation(
+     /** The game's activity (a Presentation's own [getContext] is a display context, not it). */
+     private val host: Context,
+     display: Display,
+     private val content: (Context) -> View,
+-) : Presentation(host, display) {
++) : Presentation(host, display), SecondScreenWindow {
++
++    override val screenId: Int get() = display.displayId
++    override val showing: Boolean get() = isShowing
++    override fun close() {
++        dismiss()
++        releaseContent()
++    }
+ 
+     private val owner = ComposeHostOwner()
+     private var frame: FrameLayout? = null
+diff --git a/app/src/main/kotlin/com/pokedaisy/app/LauncherHost.kt b/app/src/main/kotlin/com/pokedaisy/app/LauncherHost.kt
+index de8d63f..70f4ff9 100644
+--- a/app/src/main/kotlin/com/pokedaisy/app/LauncherHost.kt
++++ b/app/src/main/kotlin/com/pokedaisy/app/LauncherHost.kt
+@@ -26,7 +26,8 @@ class LauncherSecondScreen(private val activity: ComponentActivity, private val
+ 
+     /** Shows it on the second screen; false = there isn't one (or it couldn't be shown). */
+     fun show(): Boolean {
+-        val display = Screens.second(activity) ?: run { dismiss(); return false }
++        // Only a display a Presentation can go on: the Pocket DS's bottom screen (its default display) is left to Android.
++        val display = Screens.second(activity)?.takeIf(Screens::canPresent) ?: run { dismiss(); return false }
+         presentation?.let { if (it.display.displayId == display.displayId && it.isShowing) return true }
+         dismiss()
+         presentation = runCatching {
+diff --git a/app/src/main/kotlin/com/pokedaisy/app/PokeDaisyActivity.kt b/app/src/main/kotlin/com/pokedaisy/app/PokeDaisyActivity.kt
+index d8f8473..8b78da2 100644
+--- a/app/src/main/kotlin/com/pokedaisy/app/PokeDaisyActivity.kt
++++ b/app/src/main/kotlin/com/pokedaisy/app/PokeDaisyActivity.kt
+@@ -191,7 +191,8 @@ class PokeDaisyActivity : Activity() {
+     /** Follows the game's own player gender (a new game picks one) for PLAYER LOOK. */
+     private val lookGender = kotlinx.coroutines.CoroutineScope(androidx.compose.ui.platform.AndroidUiDispatcher.Main)
+     private lateinit var displayManager: DisplayManager
+-    private var presentation: DualScreenPresentation? = null
++    /** The second screen's window: a Presentation, or a [SecondScreenActivity] where one can't go (the Pocket DS). */
++    private var presentation: SecondScreenWindow? = null
+     // BACK for the companion: one per companion copy (bottom screen, debug mirror).
+     private val companionBack = com.pokedaisy.app.companion.ui.CompanionBack()
+     private val mirrorBack = com.pokedaisy.app.companion.ui.CompanionBack()
+@@ -2065,6 +2066,10 @@ class PokeDaisyActivity : Activity() {
+     override fun onResume() {
+         super.onResume()
+         tipsResumed = true
++        hostResumed = true
++        // A fresh start for the second screen's activity, if it kept going away last time.
++        secondScreenLosses = 0
++        secondScreenGaveUp = false
+         if (movePause) {
+             // The move's pause: the game never stopped. Only the screens follow (their configuration change may have
+             // come before the pause).
+@@ -2231,6 +2236,9 @@ class PokeDaisyActivity : Activity() {
+     }
+ 
+     override fun onDestroy() {
++        // pauseGame took it down already, unless a move's pause skipped that.
++        presentation?.close()
++        presentation = null
+         samplerThread.shutdown()
+         com.pokedaisy.app.companion.FeatureTips.available = { false }
+         // Gone while the game slept (onPause held it): stop it now, as a close would have.
+@@ -2256,6 +2264,8 @@ class PokeDaisyActivity : Activity() {
+     override fun onPause() {
+         super.onPause()
+         tipsResumed = false
++        hostResumed = false
++        window.decorView.removeCallbacks(resyncScreens)
+         com.pokedaisy.app.companion.FeatureTips.scheduler?.save()
+         // Android's pause around moving this activity to the other screen (moveToDisplay): the game runs on.
+         val moving = movingSince != 0L && android.os.SystemClock.uptimeMillis() - movingSince < MOVE_PAUSE_MS
+@@ -2306,7 +2316,7 @@ class PokeDaisyActivity : Activity() {
+         runCatching { displayManager.unregisterDisplayListener(displayListener) }
+         runCatching { inputManager.unregisterInputDeviceListener(inputDeviceListener) }
+         runCatching { unregisterReceiver(batteryReceiver) }
+-        presentation?.let { it.dismiss(); it.releaseContent() }
++        presentation?.close()
+         presentation = null
+         ffMusicPlayer.release()
+         if (::engine.isInitialized && romKey.isNotEmpty()) {
+@@ -2368,7 +2378,7 @@ class PokeDaisyActivity : Activity() {
+     private fun reopenCompanion() {
+         if (!companionClosed) return
+         companionClosed = false
+-        if (!Screens.isOnMainDisplay(this)) moveToDisplay(Display.DEFAULT_DISPLAY)
++        if (!Screens.isOnMainDisplay(this)) moveToDisplay(Screens.mainId(this))
+         syncPresentation()
+     }
+ 
+@@ -2387,22 +2397,37 @@ class PokeDaisyActivity : Activity() {
+ 
+     private fun syncPresentation() {
+         if (!::engine.isInitialized) return
+-        val target: Display? = secondScreen()
++        val second: Display? = secondScreen()
++        val here = Screens.displayOf(this)
++        // The game's own screen: the default display, or the Pocket DS's big top one (Screens.mainId).
++        val main = Screens.mainId(this)
++        shownOnDisplay = here
++        // On the second screen with the companion open: on its way to the main one (bringToMainDisplay, reopenCompanion),
++        // or Android kept it here (the Pocket DS can, for a game started from its other screen). Once a move has had its
++        // chance, the companion takes the main screen rather than leaving the player without one.
++        val offMain = here != main && second != null && here == second.displayId && !companionClosed
++        val moveWait = maxOf(Screens.bringWaitMs(), moveAskedAt + MOVE_SETTLE_MS - android.os.SystemClock.uptimeMillis(), 0L)
++        // (Not movingSince: it's only cleared by the move's own pause, which a move Android ignored never brings.)
++        val stuck = offMain && moveWait == 0L && !movePause
++        if (offMain && !stuck) {
++            window.decorView.removeCallbacks(resyncScreens)
++            window.decorView.postDelayed(resyncScreens, maxOf(moveWait, 750L) + 250L)
++        }
++        val target: Display? = if (stuck) Screens.display(this, main) else second
+         // A DS game's touch screen stays up whatever CLOSE COMPANION says: the companion is on the game's screen, as on
+         // one-screen devices. SWAP SCREENS trades its two screens like a GBA game's: the top one (the stage) goes to
+         // the second display, the touch screen with its COMPANION toggle (NdsBottomHost) to this one.
+         val swap = target != null && Screens.swapped(this, Prefs(this), target) && !debugMirror
+-        shownOnDisplay = Screens.displayOf(this)
+         // The companion closed, or this activity off the main screen (the companion closed while swapped, or on its
+         // way back from there): the game alone, here. A Presentation can't share this activity's display.
+-        if (((companionClosed && !romIsNds) || shownOnDisplay != Display.DEFAULT_DISPLAY) && target != null) {
++        if (((companionClosed && !romIsNds) || (here != main && !stuck)) && target != null) {
+             setBottomFocus(false)
+-            presentation?.let { it.dismiss(); it.releaseContent() }
++            presentation?.close()
+             presentation = null
+             showStage()
+             // Closed while swapped, the game on the second screen: the companion opens over it there, as on one screen.
+             // It fills that screen (the companion's own, on a device like the Thor), whatever COMPANION VIEW says.
+-            val over = companionClosed && shownOnDisplay != Display.DEFAULT_DISPLAY && !debugMirror
++            val over = companionClosed && here != main && !debugMirror
+             companionOverGame.value = over
+             sidePanel.setFullScreen(over)
+             syncSingleScreen(over)
+@@ -2411,11 +2436,11 @@ class PokeDaisyActivity : Activity() {
+         companionOverGame.value = false
+         sidePanel.setFullScreen(false)
+         val current = presentation
+-        if (current != null && target != null && current.display.displayId == target.displayId &&
+-            current.isShowing && swap == (mainCompanion != null)
++        if (current != null && target != null && current.screenId == target.displayId &&
++            current.showing && swap == (mainCompanion != null)
+         ) return
+         setBottomFocus(false)
+-        current?.let { it.dismiss(); it.releaseContent() }
++        current?.close()
+         presentation = null
+         dsBottom = null
+         syncOrientation(target != null)
+@@ -2427,33 +2452,97 @@ class PokeDaisyActivity : Activity() {
+         syncSingleScreen((target == null || romIsNds) && !debugMirror)
+         if (swap) showMainCompanion() else showStage()
+         if (target == null) return
+-        presentation = runCatching {
+-            DualScreenPresentation(this, target) { ctx ->
+-                if (swap) stage
+-                // A DS game: its touch screen down here (NdsBottomFrame), or the companion in its place - the player's
+-                // pick, switched from either (NdsBottomHost); the companion's window over the game above stays too.
+-                else if (romIsNds) NdsBottomHost(ctx, {
+-                    DualScreenPresentation.companionView(
+-                        ctx, telemetry, stateSlots, companionSettings, battleInput, companionBack, playClick, RetroAchievements,
+-                        initialTab = companionStartTab, initialSettingsRow = companionStartRow, statusBar = companionStatusBar, itemUse = itemUse, fly = flyAction, askForSupport = askForSupport, gamePick = gamePick, shareBestEffort = shareBestEffort,
+-                    )
+-                }, Prefs(this).dsBottomCompanion) { on -> Prefs(this).dsBottomCompanion = on }.also { dsBottom = it }
+-                else DualScreenPresentation.companionView(
++        Log.i("pokedaisy", "screens: ${Screens.describeAll(this)}; the game on #$here${if (stuck) " (kept off the main screen)" else ""}")
++        // Read now: a SecondScreenActivity builds its content later, after these are reset below.
++        val startTab = companionStartTab
++        val startRow = companionStartRow
++        presentation = openSecondScreen(target) { ctx ->
++            if (swap) stage
++            // A DS game: its touch screen down here (NdsBottomFrame), or the companion in its place - the player's
++            // pick, switched from either (NdsBottomHost); the companion's window over the game above stays too.
++            else if (romIsNds) NdsBottomHost(ctx, {
++                DualScreenPresentation.companionView(
+                     ctx, telemetry, stateSlots, companionSettings, battleInput, companionBack, playClick, RetroAchievements,
+-                    initialTab = companionStartTab, initialSettingsRow = companionStartRow, statusBar = companionStatusBar, itemUse = itemUse, fly = flyAction, askForSupport = askForSupport, gamePick = gamePick, shareBestEffort = shareBestEffort,
+-                    keys = bottomKeys, focus = { bottomFocus.value },
++                    initialTab = startTab, initialSettingsRow = startRow, statusBar = companionStatusBar, itemUse = itemUse, fly = flyAction, askForSupport = askForSupport, gamePick = gamePick, shareBestEffort = shareBestEffort,
+                 )
+-            }.also { it.show() }
+-        }.onFailure { Log.w("pokedaisy", "presentation failed", it) }.getOrNull()
++            }, Prefs(this).dsBottomCompanion) { on -> Prefs(this).dsBottomCompanion = on }.also { dsBottom = it }
++            else DualScreenPresentation.companionView(
++                ctx, telemetry, stateSlots, companionSettings, battleInput, companionBack, playClick, RetroAchievements,
++                initialTab = startTab, initialSettingsRow = startRow, statusBar = companionStatusBar, itemUse = itemUse, fly = flyAction, askForSupport = askForSupport, gamePick = gamePick, shareBestEffort = shareBestEffort,
++                keys = bottomKeys, focus = { bottomFocus.value },
++            )
++        }
+         companionStartTab = "PARTY"
+         companionStartRow = null
+-        if (presentation == null && swap) {
+-            // The game has to be somewhere: back here, the companion beside it.
+-            showStage()
++        if (presentation == null) {
++            // Nothing on the second screen after all. The game has to be somewhere: back here, the companion (a DS game's
++            // touch screen) beside it, as on one screen.
++            if (swap) showStage()
++            if (romIsNds && !debugMirror) {
++                dsOneScreen.value = true
++                sidePanel.setDsScreen(true)
++            }
+             syncSingleScreen(!debugMirror)
+         }
+     }
+ 
++    /**
++     * The second screen's window on [target], showing [content]: a Presentation where one goes (the Thor's bottom
++     * screen), else a [SecondScreenActivity] launched there - the default display (the Pocket DS's bottom screen), where
++     * WindowManager never takes a Presentation, or a display that turned one down. Null = neither: the companion stays
++     * on this screen.
++     */
++    private fun openSecondScreen(target: Display, content: (Context) -> View): SecondScreenWindow? {
++        if (Screens.canPresent(target)) {
++            val shown = runCatching { DualScreenPresentation(this, target, content) }.mapCatching { p ->
++                try {
++                    p.show()
++                    p
++                } catch (t: Throwable) {
++                    runCatching { p.dismiss() }
++                    p.releaseContent()
++                    throw t
++                }
++            }
++            shown.onFailure { Log.w("pokedaisy", "presentation failed on display ${target.displayId}", it) }
++            shown.getOrNull()?.let { return it }
++        }
++        // Android 10+ starts an activity on another display and keeps both resumed (allow_multiple_resumed_activities).
++        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q || secondScreenGaveUp) return null
++        return SecondScreenActivity.Window(this, target.displayId, content, ::onSecondScreenLost).takeIf { it.launch() }
++    }
++
++    /** Between onResume and onPause: a second-screen activity that went away is asked for again only then. */
++    private var hostResumed = false
++
++    /** Second-screen activities lost in a row soon after showing ([onSecondScreenLost]). */
++    private var secondScreenLosses = 0
++
++    /** Too many lost: the companion stays on the game's screen until the game is resumed again. */
++    private var secondScreenGaveUp = false
++
++    /** When [moveToDisplay] last asked Android to move this activity (0 = never): a move gets a moment to land. */
++    private var moveAskedAt = 0L
++
++    private val resyncScreens = Runnable { if (hostResumed) syncPresentation() }
++
++    /**
++     * The second screen's activity went away by itself: covered (another app, HOME there, the device's own menu), closed
++     * from the device's task bar, or started on the wrong display. It's asked for again a moment later, as a Presentation
++     * would have stayed - but a few quick losses in a row mean the device won't keep it, and the companion stays here.
++     */
++    private fun onSecondScreenLost(w: SecondScreenActivity.Window) {
++        if (w !== presentation) return
++        val quick = w.shownAt == 0L || android.os.SystemClock.uptimeMillis() - w.shownAt < SECOND_SCREEN_STEADY_MS
++        secondScreenLosses = if (quick) secondScreenLosses + 1 else 0
++        if (secondScreenLosses > SECOND_SCREEN_RETRIES && !secondScreenGaveUp) {
++            secondScreenGaveUp = true
++            Log.w("pokedaisy", "the second screen's activity keeps going away: the companion stays on the game's screen")
++        }
++        window.decorView.removeCallbacks(resyncScreens)
++        window.decorView.postDelayed(resyncScreens, SECOND_SCREEN_RETRY_MS)
++    }
++
+     /** The second display the companion goes on, or null: none, or SINGLE SCREEN keeps the game to this one. */
+     private fun secondScreen(): Display? = Screens.second(this)?.takeIf { !Prefs(this).singleScreen }
+ 
+@@ -2495,6 +2584,7 @@ class PokeDaisyActivity : Activity() {
+      */
+     private fun moveToDisplay(displayId: Int) {
+         movingSince = android.os.SystemClock.uptimeMillis()
++        moveAskedAt = movingSince
+         if (!Screens.moveToDisplay(this, displayId)) movingSince = 0L
+     }
+ 
+@@ -3014,7 +3104,7 @@ class PokeDaisyActivity : Activity() {
+      * START menu, where the field read knows), the companion on the other screen, nothing else holding the buttons. */
+     private fun canFocusBottom(): Boolean {
+         if (romIsNds || debugMirror || companionClosed || companionOverGame.value) return false
+-        if (presentation?.isShowing != true) return false
++        if (presentation?.showing != true) return false
+         if (!::engine.isInitialized || !engine.onField.value || engine.fieldLocked) return false
+         if (quickMenu.open || touchEditor != null || keyCapture.request != null) return false
+         if (::sidePanel.isInitialized && sidePanel.windowOpen) return false
+@@ -3745,6 +3835,14 @@ class PokeDaisyActivity : Activity() {
+         /** How long after asking to move to the other screen a pause is that move's (Android delivers it at once). */
+         private const val MOVE_PAUSE_MS = 2_000L
+         private const val REFOCUS_DELAY_MS = 600L
++        /** How long a move to another screen gets to land before the game counts as staying where it is. */
++        private const val MOVE_SETTLE_MS = 2_000L
++        /** A second-screen activity that went away is asked for again after this long ... */
++        private const val SECOND_SCREEN_RETRY_MS = 1_500L
++        /** ... and a loss within this long of showing counts toward giving up ... */
++        private const val SECOND_SCREEN_STEADY_MS = 10_000L
++        /** ... after this many in a row. */
++        private const val SECOND_SCREEN_RETRIES = 3
+         /** Places the player has stood on before a game whose field isn't known counts as being played: the title and
+          *  CONTINUE already change it two or three times (Too Many Types 2 fills it in on the title), so a couple of
+          *  steps more. */
+diff --git a/app/src/main/kotlin/com/pokedaisy/app/Screens.kt b/app/src/main/kotlin/com/pokedaisy/app/Screens.kt
+index 6703064..96473a4 100644
+--- a/app/src/main/kotlin/com/pokedaisy/app/Screens.kt
++++ b/app/src/main/kotlin/com/pokedaisy/app/Screens.kt
+@@ -4,6 +4,7 @@ import android.app.Activity
+ import android.app.ActivityOptions
+ import android.content.Context
+ import android.content.Intent
++import android.os.Build
+ import android.os.Bundle
+ import android.graphics.Point
+ import android.hardware.display.DisplayManager
+@@ -12,20 +13,83 @@ import android.view.Display
+ /** The device's screens: is there a second one, and which. */
+ object Screens {
+     /**
+-     * The second screen, or null with one. The Thor's bottom screen is a
+-     * presentation display. Other dual-screen handhelds (Retroid Pocket Duo /
+-     * Duo Lite) may expose theirs as a plain secondary display without that
+-     * flag, so fall back to any valid public display other than the built-in
+-     * main one.
++     * Displays that aren't a screen: a placeholder some devices list, and the one an app recording the screen makes
++     * (Discord's) - melonDS for Android leaves out the same two.
++     */
++    private val NOT_SCREENS = setOf("HiddenDisplay", "WebRTC_ScreenCapture")
++
++    /** An AYANEO handheld (the Pocket DS): see [builtIn]. */
++    private val ayaneo = Build.MANUFACTURER.contains("ayaneo", ignoreCase = true) || Build.BRAND.contains("ayaneo", ignoreCase = true)
++
++    /**
++     * The display the game belongs on. Normally the device's default display (the Thor's top screen), but not where a
++     * built-in screen is clearly bigger than the default one: the AYANEO Pocket DS's default display is its small bottom
++     * screen (5", 1024x768) and its big top one (7", 1920x1080) a second display. The game used to be sent down there,
++     * and the companion's Presentation over the game up top. Screens of one size (the RG DS) keep the default display.
++     */
++    fun mainId(context: Context): Int {
++        val (anyScreen, defaultOnly) = markers(context)
++        if (defaultOnly) return Display.DEFAULT_DISPLAY
++        val displays = context.getSystemService(DisplayManager::class.java) ?: return Display.DEFAULT_DISPLAY
++        val default = displays.getDisplay(Display.DEFAULT_DISPLAY) ?: return Display.DEFAULT_DISPLAY
++        val base = area(default)
++        if (base <= 0L) return Display.DEFAULT_DISPLAY
++        return displays.displays
++            .filter { it.displayId != Display.DEFAULT_DISPLAY && isScreen(it) && it.state != Display.STATE_OFF }
++            .filter { (anyScreen || builtIn(it)) && area(it) > base * 5 / 4 }
++            .maxByOrNull(::area)
++            ?.displayId ?: Display.DEFAULT_DISPLAY
++    }
++
++    /**
++     * Marker files for a device [mainId] gets wrong, in FeatureFlags' folder
++     * (`/sdcard/Android/data/<package>/files/features/`): `game_on_bigger_screen` lets any screen count, whatever type
++     * it reports (also how the emulator's stand-in screens test it); `game_on_default_screen` keeps the game on the default
++     * display, as before. Read once per process: restart the app after adding or removing one.
++     */
++    @Volatile private var markerFlags: Pair<Boolean, Boolean>? = null
++
++    private fun markers(context: Context): Pair<Boolean, Boolean> = markerFlags ?: runCatching {
++        val dir = java.io.File(context.applicationContext.getExternalFilesDir(null) ?: context.filesDir, "features")
++        Pair(java.io.File(dir, "game_on_bigger_screen").isFile, java.io.File(dir, "game_on_default_screen").isFile)
++    }.getOrDefault(Pair(false, false)).also { markerFlags = it }
++
++    /**
++     * The second screen, or null with one: the device's other screen than [mainId]'s. With the game on the default
++     * display, as on the Thor, that's a presentation display (the Thor's bottom screen). Other dual-screen handhelds
++     * (Retroid Pocket Duo / Duo Lite) may expose theirs as a plain secondary display without that flag, so fall back to
++     * any valid public display other than the main one. With the game on another display (the Pocket DS's top screen),
++     * the default display is the second screen - a Presentation can't go there, so the companion goes there as a
++     * [SecondScreenActivity] ([canPresent]).
+      */
+     fun second(context: Context): Display? {
+         val displays = context.getSystemService(DisplayManager::class.java) ?: return null
+-        return displays.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION).firstOrNull { it.isValid }
+-            ?: displays.displays.firstOrNull {
+-                it.isValid && it.displayId != Display.DEFAULT_DISPLAY && (it.flags and Display.FLAG_PRIVATE) == 0
+-            }
++        val main = mainId(context)
++        if (main != Display.DEFAULT_DISPLAY) {
++            displays.getDisplay(Display.DEFAULT_DISPLAY)?.takeIf { it.isValid && it.state != Display.STATE_OFF }?.let { return it }
++        }
++        return displays.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION).firstOrNull {
++            it.isValid && it.displayId != main && it.name !in NOT_SCREENS
++        } ?: displays.displays.firstOrNull {
++            it.isValid && it.displayId != Display.DEFAULT_DISPLAY && it.displayId != main && isScreen(it)
++        }
+     }
+ 
++    /** [displayId]'s display, if it's there. */
++    fun display(context: Context, displayId: Int): Display? =
++        context.getSystemService(DisplayManager::class.java)?.getDisplay(displayId)?.takeIf { it.isValid }
++
++    /**
++     * Whether a Presentation can be tried on [display]. WindowManager never puts one on the default display; elsewhere
++     * it's tried, and a display that turns it down gets a [SecondScreenActivity] instead (PokeDaisyActivity).
++     *
++     * Never on an AYANEO handheld. The Pocket DS's bottom screen runs AYANEO's own launcher, which keeps its "Dual-Screen"
++     * panel (an overlay window, above any Presentation) up for as long as that launcher is the screen's resumed activity:
++     * AYAHome 1.0.113's SecondaryLauncherActivity shows it in onResume and hides it in onPause. Only an activity on top
++     * of it pauses it, so the companion goes there as one. (Opening PokeDaisy from that launcher did the same by hand.)
++     */
++    fun canPresent(display: Display): Boolean = display.displayId != Display.DEFAULT_DISPLAY && !ayaneo
++
+     /**
+      * Start options that put the game on the main display, for an [activity] that isn't on it - the
+      * library or a frontend opened on the bottom screen. A started activity otherwise opens on its
+@@ -37,11 +101,11 @@ object Screens {
+      */
+     fun mainDisplayLaunch(activity: Activity): Bundle? {
+         if (isOnMainDisplay(activity)) return null
+-        return ActivityOptions.makeBasic().setLaunchDisplayId(Display.DEFAULT_DISPLAY).toBundle()
++        return ActivityOptions.makeBasic().setLaunchDisplayId(mainId(activity)).toBundle()
+     }
+ 
+-    /** Whether [activity]'s window is on the device's main display (the Thor's top screen). */
+-    fun isOnMainDisplay(activity: Activity): Boolean = displayOf(activity) == Display.DEFAULT_DISPLAY
++    /** Whether [activity]'s window is on the device's main display ([mainId]: the Thor's top screen, the Pocket DS's too). */
++    fun isOnMainDisplay(activity: Activity): Boolean = displayOf(activity) == mainId(activity)
+ 
+     /** The display [activity] is on now (it follows a move to another display: [moveToDisplay]). */
+     fun displayOf(activity: Activity): Int =
+@@ -95,9 +159,15 @@ object Screens {
+         val now = System.currentTimeMillis()
+         if (now - lastBring < MOVE_GUARD_MS) return
+         lastBring = now
+-        moveToDisplay(activity, Display.DEFAULT_DISPLAY)
++        moveToDisplay(activity, mainId(activity))
+     }
+ 
++    /**
++     * How long until [bringToMainDisplay] may try again (0 = it may now). While it's waiting, a game off the main
++     * display may still be on its way there; after that, Android kept it where it is.
++     */
++    fun bringWaitMs(): Long = (MOVE_GUARD_MS - (System.currentTimeMillis() - lastBring)).coerceIn(0L, MOVE_GUARD_MS)
++
+     /** SWAP SCREENS only means something with two. */
+     fun hasSecond(context: Context) = second(context) != null
+ 
+@@ -114,9 +184,43 @@ object Screens {
+         else -> false
+     }
+ 
++    /**
++     * [display] is one of the device's own screens, for [mainId]: TYPE_INTERNAL. On an AYANEO handheld also a display
++     * whose type can't be read or that says external, in case its second panel is reported that way - its own screens
++     * are the point there. Overlay (4), Wi-Fi (3) and virtual (5) displays never are.
++     */
++    private fun builtIn(display: Display): Boolean = when (typeOf(display)) {
++        1 -> true
++        null, 2 -> ayaneo
++        else -> false
++    }
++
++    /** A real, public screen: valid, not private, not one of [NOT_SCREENS]. */
++    private fun isScreen(display: Display): Boolean =
++        display.isValid && (display.flags and Display.FLAG_PRIVATE) == 0 && display.name !in NOT_SCREENS
++
++    private fun area(display: Display): Long {
++        val size = Point().also { @Suppress("DEPRECATION") display.getRealSize(it) }
++        return size.x.toLong() * size.y.toLong()
++    }
++
+     /** Display.getType(), or null where it can't be read. */
+     fun typeOf(display: Display): Int? = runCatching { displayType?.invoke(display) as? Int }.getOrNull()
+ 
++    /** [displayId] for the log: its name, size, type, flags and state. */
++    fun describe(context: Context, displayId: Int): String {
++        val d = display(context, displayId) ?: return "gone"
++        val size = Point().also { @Suppress("DEPRECATION") d.getRealSize(it) }
++        return "${d.name}, ${size.x}x${size.y}, type ${typeOf(d)}, flags 0x${Integer.toHexString(d.flags)}, state ${d.state}"
++    }
++
++    /** Every display Android lists, for the log (what a device reports is the first thing to know about a new one). */
++    fun describeAll(context: Context): String {
++        val displays = context.getSystemService(DisplayManager::class.java)?.displays ?: return "none"
++        return displays.joinToString("; ") { "#${it.displayId} ${describe(context, it.displayId)}" } +
++            " -> main #${mainId(context)}, second #${second(context)?.displayId}"
++    }
++
+     /** SWAP SCREENS for the second screen there is: [Prefs.swapScreensExternal] for a TV, else [Prefs.swapScreens]. */
+     fun swapped(context: Context, prefs: Prefs, display: Display? = second(context)): Boolean =
+         if (display != null && isExternal(display)) prefs.swapScreensExternal else prefs.swapScreens
+diff --git a/app/src/main/kotlin/com/pokedaisy/app/SecondScreenActivity.kt b/app/src/main/kotlin/com/pokedaisy/app/SecondScreenActivity.kt
+new file mode 100644
+index 0000000..de3daea
+--- /dev/null
++++ b/app/src/main/kotlin/com/pokedaisy/app/SecondScreenActivity.kt
+@@ -0,0 +1,245 @@
++package com.pokedaisy.app
++
++import android.app.Activity
++import android.app.ActivityOptions
++import android.content.Context
++import android.content.Intent
++import android.graphics.Color
++import android.os.Build
++import android.os.Bundle
++import android.os.SystemClock
++import android.util.Log
++import android.view.KeyEvent
++import android.view.MotionEvent
++import android.view.View
++import android.view.ViewGroup
++import android.view.WindowManager
++import android.widget.FrameLayout
++import androidx.core.view.WindowCompat
++import androidx.core.view.WindowInsetsCompat
++import androidx.core.view.WindowInsetsControllerCompat
++import androidx.lifecycle.setViewTreeLifecycleOwner
++import androidx.lifecycle.setViewTreeViewModelStoreOwner
++import androidx.savedstate.setViewTreeSavedStateRegistryOwner
++
++/** The second screen's window, whichever kind [PokeDaisyActivity] has up: a [DualScreenPresentation] or a [SecondScreenActivity]. */
++interface SecondScreenWindow {
++    /** The display it's on (or was asked for). */
++    val screenId: Int
++
++    /** Up on that display; an activity Android is still starting counts, for a moment. */
++    val showing: Boolean
++
++    /** Takes it down and lets go of its content (the game's stage, on its way back to the game's activity). */
++    fun close()
++}
++
++/**
++ * The second screen as an activity of its own, for a display a [DualScreenPresentation] can't go on: the device's
++ * default display (WindowManager never puts TYPE_PRESENTATION there) or one without the presentation flag.
++ *
++ * The AYANEO Pocket DS is why. Its default display is the small bottom screen, and its big top screen is a second
++ * display, so with the game up top ([Screens.mainId]) the companion's screen is the default one. A Presentation can't
++ * go there, so the companion goes down as this activity instead: its own task, launched on that display. Gen 1 Recomp
++ * does the same on the Pocket DS, and its second screen works there. (A Presentation on the bottom screen was never an
++ * option, and the Pocket DS also keeps its own menu over the bottom screen until an app is started there.)
++ *
++ * It shows what a Presentation would ([Window.content], built in this activity's context) and hands every key and
++ * stick motion to the game's activity, as [DualScreenPresentation] does.
++ */
++class SecondScreenActivity : Activity() {
++
++    /**
++     * One second-screen window asked of this activity: [content] on display [screenId], for [host] (the game's activity,
++     * which gets the keys). Made at once, handed to the activity when Android starts it. [onLost] hears when the activity
++     * went away without being [close]d: stopped (another app, or the device's own menu, over it), destroyed, or started
++     * on another display than the one asked for. A lost window stays lost; the host asks for a new one.
++     */
++    class Window(
++        private val host: Activity,
++        override val screenId: Int,
++        val content: (Context) -> View,
++        private val onLost: (Window) -> Unit,
++    ) : SecondScreenWindow {
++        internal var activity: SecondScreenActivity? = null
++        private var closed = false
++        private var lost = false
++
++        /** When the activity first showed it (0 = not yet): a window lost soon after is a failed start, not a player's close. */
++        var shownAt = 0L
++            internal set
++
++        /** Asked for or up: every way it can go away without [close] marks it lost ([lose]). */
++        override val showing: Boolean get() = !closed && !lost
++
++        /** Asks Android for the activity on [screenId]; false = it refused at once. */
++        fun launch(): Boolean {
++            waiting = this
++            return runCatching {
++                host.startActivity(
++                    Intent(host, SecondScreenActivity::class.java)
++                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION),
++                    ActivityOptions.makeBasic().setLaunchDisplayId(screenId).toBundle(),
++                )
++                Log.i(TAG, "second screen activity asked for on display $screenId")
++                // Android can also drop the start without a word: not up in a few seconds = lost.
++                host.window.decorView.postDelayed({ if (activity == null) lose("never started") }, START_TIMEOUT_MS)
++            }.onFailure {
++                Log.w(TAG, "second screen activity refused on display $screenId", it)
++                if (waiting === this) waiting = null
++                lost = true
++            }.isSuccess
++        }
++
++        override fun close() {
++            if (closed) return
++            closed = true
++            if (waiting === this) waiting = null
++            activity?.let { a ->
++                activity = null
++                a.release()
++                a.finish()
++            }
++        }
++
++        internal val isClosed get() = closed
++
++        internal fun lose(why: String) {
++            if (closed || lost) return
++            lost = true
++            if (waiting === this) waiting = null
++            Log.i(TAG, "second screen activity on display $screenId went away: $why")
++            onLost(this)
++        }
++
++        /** The host forwards keys here: true while the activity is up and Android gives it the keys. */
++        internal fun key(event: KeyEvent): Boolean = host.dispatchKeyEvent(event)
++
++        internal fun motion(event: MotionEvent): Boolean = host.dispatchGenericMotionEvent(event)
++    }
++
++    private val owner = ComposeHostOwner()
++    private var frame: FrameLayout? = null
++    private var shown: Window? = null
++
++    /** Started and not stopped: it's on its display. */
++    internal var isUp = false
++        private set
++
++    override fun onCreate(savedInstanceState: Bundle?) {
++        super.onCreate(savedInstanceState)
++        owner.create()
++        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
++        frame = FrameLayout(this).apply {
++            setBackgroundColor(Color.BLACK)
++            setViewTreeLifecycleOwner(owner)
++            setViewTreeSavedStateRegistryOwner(owner)
++            setViewTreeViewModelStoreOwner(owner)
++        }
++        setContentView(frame!!)
++        goFullScreen()
++        attach()
++    }
++
++    override fun onNewIntent(intent: Intent) {
++        super.onNewIntent(intent)
++        attach()
++    }
++
++    /** Takes the window that's waiting, if it's for this display. Nothing waiting = nothing to show here. */
++    private fun attach() {
++        val want = waiting
++        if (want == null || want.isClosed) {
++            if (shown == null) finish()
++            return
++        }
++        if (want === shown) return
++        val here = Screens.displayOf(this)
++        if (want.screenId != here) {
++            // Android put it on another display (over the game, perhaps): not there.
++            want.lose("started on display $here, not ${want.screenId}")
++            if (shown == null) finish()
++            return
++        }
++        waiting = null
++        // An older window this activity showed: the host closed it before asking for the new one.
++        shown?.let { if (it.activity === this) it.activity = null }
++        release()
++        shown = want
++        want.activity = this
++        frame?.addView(want.content(this).also { (it.parent as? ViewGroup)?.removeView(it) })
++        if (isUp && want.shownAt == 0L) want.shownAt = SystemClock.uptimeMillis()
++        Log.i(TAG, "second screen activity shown on display $here (${Screens.describe(this, here)})")
++    }
++
++    /** Lets go of the content (the game's stage, on its way back to the game's activity). */
++    internal fun release() {
++        frame?.removeAllViews()
++    }
++
++    override fun onStart() {
++        super.onStart()
++        isUp = true
++        owner.resume()
++        goFullScreen()
++        shown?.let { if (it.shownAt == 0L) it.shownAt = SystemClock.uptimeMillis() }
++    }
++
++    override fun onStop() {
++        super.onStop()
++        isUp = false
++        // Covered (another app, HOME on this screen, the device's own menu): the game's activity decides what's next.
++        if (!isFinishing && !isChangingConfigurations) shown?.lose("stopped")
++    }
++
++    override fun onDestroy() {
++        shown?.let { w ->
++            if (w.activity === this) w.activity = null
++            w.lose("destroyed")
++        }
++        shown = null
++        release()
++        owner.destroy()
++        super.onDestroy()
++    }
++
++    override fun onWindowFocusChanged(hasFocus: Boolean) {
++        super.onWindowFocusChanged(hasFocus)
++        if (hasFocus) goFullScreen()
++    }
++
++    /**
++     * Keys belong to the game: once this screen is touched (or started) it holds the key focus, and the controls would
++     * otherwise land here. BACK goes too (tap = the companion's back, hold = the library), as from the Presentation.
++     */
++    override fun dispatchKeyEvent(event: KeyEvent): Boolean =
++        shown?.key(event) ?: super.dispatchKeyEvent(event)
++
++    override fun dispatchGenericMotionEvent(event: MotionEvent): Boolean =
++        shown?.motion(event) ?: super.dispatchGenericMotionEvent(event)
++
++    /** No status bar or navigation bar on the companion's screen; an edge swipe shows them for a moment. */
++    private fun goFullScreen() {
++        val w = window ?: return
++        WindowCompat.setDecorFitsSystemWindows(w, false)
++        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
++            w.attributes = w.attributes.apply {
++                layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
++            }
++        }
++        WindowCompat.getInsetsController(w, w.decorView).apply {
++            systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
++            hide(WindowInsetsCompat.Type.systemBars())
++        }
++    }
++
++    companion object {
++        private const val TAG = "pokedaisy"
++
++        /** How long Android gets to start the activity before its window counts as lost. */
++        private const val START_TIMEOUT_MS = 3_000L
++
++        /** The window the next started (or re-started) activity shows. Main thread only. */
++        private var waiting: Window? = null
++    }
++}
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+index c8e428c..7f0365d 100644
+--- a/app/src/main/AndroidManifest.xml
++++ b/app/src/main/AndroidManifest.xml
+@@ -58,6 +58,12 @@
+             android:name="firebase_crashlytics_collection_enabled"
+             android:value="false" />
+ 
++        <!-- The game's activity and the second screen's (SecondScreenActivity, on another display) stay resumed
++             together: starting the companion's screen must never pause the game. -->
++        <meta-data
++            android:name="android.allow_multiple_resumed_activities"
++            android:value="true" />
++
+         <activity
+             android:name=".LibraryActivity"
+             android:exported="true"
+@@ -128,5 +134,18 @@
+             android:launchMode="singleTask"
+             android:parentActivityName=".LibraryActivity"
+             android:theme="@style/Theme.PokeDaisy" />
++
++        <!-- The second screen where a Presentation can't go (the AYANEO Pocket DS's bottom screen, its default
++             display): the companion (or, swapped, the game) as an activity in its own task on that display, started
++             and closed by PokeDaisyActivity. Out of recents, and never restarted by a configuration change. -->
++        <activity
++            android:name=".SecondScreenActivity"
++            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboard|keyboardHidden|navigation|uiMode|density|fontScale|layoutDirection|locale|touchscreen|colorMode"
++            android:excludeFromRecents="true"
++            android:exported="false"
++            android:launchMode="singleTask"
++            android:screenOrientation="sensorLandscape"
++            android:taskAffinity="${applicationId}.second"
++            android:theme="@style/Theme.PokeDaisy" />
+     </application>
+ </manifest>

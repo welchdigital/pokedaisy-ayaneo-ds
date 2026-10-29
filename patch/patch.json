@@ -1,0 +1,1068 @@
+{
+ "app": {
+  "package": "com.pokedaisy.app",
+  "versionName": "1.3.3",
+  "versionCode": "16",
+  "sha256": "91f1978d65d3018b33be92718eab7c6914138b875959a86ca005bb413276db39"
+ },
+ "apktool": "3.0.3",
+ "dex": [
+  "classes2.dex"
+ ],
+ "manifest": [
+  {
+   "after": "<meta-data android:name=\"firebase_crashlytics_collection_enabled\" android:value=\"false\"/>",
+   "insert": [
+    "<meta-data android:name=\"android.allow_multiple_resumed_activities\" android:value=\"true\"/>"
+   ]
+  },
+  {
+   "after": "<activity android:configChanges=\"keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize\" android:exported=\"false\" android:launchMode=\"singleTask\" android:name=\"com.pokedaisy.app.PokeDaisyActivity\" android:parentActivityName=\"com.pokedaisy.app.LibraryActivity\" android:theme=\"@style/Theme.PokeDaisy\"/>",
+   "insert": [
+    "<activity android:configChanges=\"locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|density|layoutDirection|colorMode|fontScale\" android:excludeFromRecents=\"true\" android:exported=\"false\" android:launchMode=\"singleTask\" android:name=\"com.pokedaisy.app.SecondScreenActivity\" android:screenOrientation=\"sensorLandscape\" android:taskAffinity=\"com.pokedaisy.app.second\" android:theme=\"@style/Theme.PokeDaisy\"/>"
+   ]
+  }
+ ],
+ "files": [
+  {
+   "path": "smali_classes2/com/pokedaisy/app/DualScreenPresentation$Companion$companionView$1$1$screen$1.smali",
+   "old": "d1367dd73a5f81ef7237d9e3e264580c8e7b92c974f912abb3a0da3ee65907f5",
+   "new": "c277f89a36946affa39386a863bba2b6823b77a32ce481bd000958ce4c32c4b6"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/DualScreenPresentation$Companion$companionView$1$1.smali",
+   "old": "f44868e685a7ca991c6275e7fe1729e73f62bfc76c0c877817e5fa53cc1e476e",
+   "new": "4a9f9c82eaa5dfb2b77c160fb269156957e6b7f3d5978bf27b19d3b6efb8db3f"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/DualScreenPresentation$Companion.smali",
+   "old": "1df7de09f38481eaa9c2c90b56d5e1ed599882f10d3ef1efb832395ec564d2f4",
+   "new": "9a19e19d595c72dab50132ce6478d2e2c21c21bf5458ec9b98844ce8a32bceaf"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/DualScreenPresentation.smali",
+   "old": "638bba9413968104abc5e80f41482d8dd3ff6d4cfb613230aeeba34779e175ee",
+   "new": "208f52acc4fc6c0c29615aa78f558a89e43c65b611483d2667f3745f04662a31"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/LauncherHostKt$LauncherVideo$1$invoke$$inlined$onDispose$1.smali",
+   "old": "81be1cee6e6f4327ed4dc5753ce94dbd39a1066f8bee029cfd9fd8f8184f2228",
+   "new": "9f229a35a1d22999057d2063c8582a6c19d2d016a180a5b58b39f901d1d643cf"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/LauncherHostKt$LauncherVideo$1.smali",
+   "old": "ae7b7c8c8f7b849cd18059aaf8ac5b416a94b07183bb3a0bed5176279f45d56f",
+   "new": "1c70594455db592c21032e5ac49aaa56461b22b2258c84517346e13bc62523ee"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/LauncherHostKt$LauncherVideo$2$1$1.smali",
+   "old": "854a546e76fd248e43827cab73aa067d493c21b28ece82f6af1d32a447467572",
+   "new": "ac6d0eb9332f9f1933df6ed5a434957313ead95c10594fcfb72b1637c4e1f28f"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/LauncherHostKt$LauncherVideo$2.smali",
+   "old": "cacf783799395a590ec6db87a711904e441676e84c77a5236f0728b83d990135",
+   "new": "00cea9ef6dad729f1d661b724b22ad96236b59de383e360c3cd3bd0a55743479"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/LauncherHostKt.smali",
+   "old": "3f70e0125cd617885a9f28f10f26c58ffb25a1ac9dc5cdccc5074283d6acab15",
+   "new": "218695a32677e975191dddff17de1fc4aa6d136b37f35ec79319082223e349ce"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/LauncherSecondScreen$show$2$1$1$1$1.smali",
+   "old": "62bf1a31b007a89ff13663db6db145c713ee44f2142aea23e82d720df0cbdfc3",
+   "new": "cfd00914931a10cda0263c40278073230a6c5223b205abae82b915c69fa3079c"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/LauncherSecondScreen$show$2$1$1$1.smali",
+   "old": "2ed11ac7b25d21c4cf64300f6a22f0d4614771ccf6aafd4b838dfb77f1562608",
+   "new": "86ff7fb857461040085b516b690bfadd14615344f870b8662ee9062d6c942d02"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/LauncherSecondScreen$show$2$1.smali",
+   "old": "568c35f34273163092b626cd9a7e64a99ea6b9e000c3ef285e504b8532bc79ae",
+   "new": "917efcdd798954747e924ed8bd011c88015b7de3e6cffaacfa7596c3081a9cad"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/LauncherSecondScreen.smali",
+   "old": "338bdad07472ccb7487c06e18f736fc78abe8e2546d8d86e49404bed99e601eb",
+   "new": "7ab5f4a7e24c08c66d830a0bf4c212d0067182349425104607f3d6522acd2611"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda1.smali",
+   "old": "a86722527a5db90e2735f03b2b3e1bd4ca67d2aba619e4d576054ac4e62b881b",
+   "new": "c0616a34444f9e1be038401d85f230913608d207764c479b18bbc17d96fa3882"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda10.smali",
+   "old": "a12534881e8b11457b2690bc5ead63235c1ccbcf5f9d3b12d0cab5d44af80db6",
+   "new": "2a1a8d524034c40eac227d435889f12c10818976f7af84ce913f5e148ff36e5d"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda11.smali",
+   "old": "1bf8abbe18ea8ec1fe43480ff625a6e94bc074b606a340e6d1cab37b65f96294",
+   "new": "79a6a7b2d15e0c336b55274b4fad1aad261e7f535b740068035068ed41938402"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda12.smali",
+   "old": "427bdab1c0e540582058498d7f7c95703f0490caf63443331ee28db3f8b34286",
+   "new": "03cbf3c9e69369cb1321e0e9174008b2b2a17a1ed02dda49cdc19546dd28848c"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda13.smali",
+   "old": "ef182d60debab4a59d4efaca1cd525ec7386e697fb8224b016d1c6d63a638dc6",
+   "new": "f583e36076e8b59e01a9b674688544bf95df13baa16595ad2e11ac419828e302"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda14.smali",
+   "old": null,
+   "new": "736a7a0e9e03645ca278c3291ffb84d87aa7eb095c20cc1b9535ffb7209c203d"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda2.smali",
+   "old": "e23214b6fb8122d3c8e771168398994ac04b36b392421504d7f8249b70dad918",
+   "new": "7681ffe7d3c453d92668e7c47fc2476109621e10d760fc6fdafcd4fc4acb64ba"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda3.smali",
+   "old": "1f5734415c9df90cce55c87a690b00fa2942876e1407cd9f9251dd268e9705a3",
+   "new": "7487e03e739997351915f854de37ea100c9ea98ecfd01e0b419c9a5e4441da5f"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda4.smali",
+   "old": "ea9326ece7121c18336b16f55e36c9df7ddabfc8bc68228c4452eddf45645134",
+   "new": "2a558c40751921e8403e51ea4da5414bd9ff77f717a47af95e402617a0073f6e"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda5.smali",
+   "old": "ea72670e95a3a28fd418ea0111e60b49441045ed34af991e9587b217d4735dfc",
+   "new": "1741acf226019b945f05e316f6985702d64329a162d170b6651960366a069b7d"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda6.smali",
+   "old": "05eb2b6cb830a48ac62e94df5cd1f76ddb4855b2696037ebbafe1db567e02096",
+   "new": "2f84b0df3109682ce816c542a3ce23fdb42ec951b608c144dac803c3c3451847"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda7.smali",
+   "old": "f721374ae5c7993fa3bc593bdef33bb5ba4f5fd137f5ef2dda74bf277259aa90",
+   "new": "4cddeaf3f340b3905a7f100848bddcf798e210825a78f1ef4ddc3ab494456a82"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda8.smali",
+   "old": "aafa87fdb0436509f46319d40d3122530737caaac7d81730a1fea5ef738c5ac8",
+   "new": "f2de402216bfd4834e51eb1ad8415b0d69fce3cd2a05810099a2d75966dd4990"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$$ExternalSyntheticLambda9.smali",
+   "old": "9d1680265d208ba8989271be3aed3734a34bee020fc16738e6f47a95c837f794",
+   "new": "b3712431db209df4a0502812b3bb450f70631ff6f0cef7f5c73cc95bdea4bca5"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$Companion.smali",
+   "old": "ebbb01261b13a3236a32a84464acf0314ecc901329979f39e53849173779cc69",
+   "new": "617b5e60fefb6cccaf58b9d4676880265d87cc7c874ab077db57265cff112f0c"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$EntriesMappings.smali",
+   "old": null,
+   "new": "5ba6b550c7d4efd52491b68d04bd8a6fac78f6e8b87d4074de21ba2b6d2ce54c"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$StatusBarContent$name$3$1.smali",
+   "old": "f9e050c94f9228aa428e3a8abe201a5c792fe5b8df018f96cf21a15903b5a0bf",
+   "new": "e7628c0f170b15ed7b793d9389921b7a4258a857faa7468226f31961bb80e94c"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$StatusBarContent$name$3.smali",
+   "old": "ff47cb9bc0d783bf7d6ca118e0bc87762d9a06c4480ec369f56818e28e8c5e70",
+   "new": "7e9e92d4141f77ec859505633ba0485ba45c52c0325549fd88b39a662690e68f"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$StatusBarContent$time$2.smali",
+   "old": "0427838fd61d5d9469fa8ab22e8d7fd55cf5b543fc31e965923aa1e9c30db58f",
+   "new": "4098656b81935cf0b4cb5f5a948e695616be2512477b29114d8b9559c54e39ae"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$askForSupport$1.smali",
+   "old": "e696434b078105c93bf746680c7b13d1450c58d0d491f1312705212ed8edcacc",
+   "new": "7e8a4089ecf2abf7e8ea8b932ab121c5897033a2aac7ebdc79d65e0db2a1f9eb"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$batteryReceiver$1.smali",
+   "old": "ff375df58557b219f584095692418d1315710925c4d13039d4d799bb3bc83699",
+   "new": "be9a534f7e1d83313cbfc612a0ca2e4bed41e2397c1d025aca76fd7122efa13d"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$battleInput$1.smali",
+   "old": "699b39bf960906415afa3c3906e9601c240514a97700f523c612f4d8bddead25",
+   "new": "f9a6416216de7fcc8202a2bd8c81a05ca594b5bb32ad347c4bc13159a6b8ba35"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildDebugCompanionMirror$1$1.smali",
+   "old": "9717d9245eb58c8b87aa83123736e5937b36f55821dfb2930661124f2936bff8",
+   "new": "661ca2069f713641a1ea708eeabb229b553c239f4f51447d5d7bab1a91fb86c3"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$1.smali",
+   "old": "b13d60f5ae9348935959b8ec1d4a26887f09e5422f909d2d11428c1a3e19c386",
+   "new": "d80ad7685cd24524e07af4ad4f24c1244dc6e82a48d77858940bd8920488a92f"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$2$1.smali",
+   "old": "0e20b2a25eb8073d47191dab5ca7550b63fe6badff9dbf78d80b9ad262d64a25",
+   "new": "e91e85caecb8a0e0511a3b2fcf690942d193b2290b2ba2ac761e1dc62164a4fb"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$3.smali",
+   "old": "8bf1ca17a99d2812761247e614143eaa55b14d36ea2dcbde27a8f4ffb187a58b",
+   "new": "685815f2922ca61084ff8bf47a146b11b39bbdc5ba42bf038497e65ba9445247"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$4$1$1.smali",
+   "old": "9124a6f03a76db5d3c4972544ba730a9d1d7d729cb60ea18d81681581f021b1c",
+   "new": "931e3928cc576843b006869f27810d69aaa31af8a8909dcf2e0b4982c60da2e7"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$4$2.smali",
+   "old": "add000d568fb535aee10ff3ad1e67d7226ac613108c5c40fc531462eb45b09ef",
+   "new": "df4b92bd60263a71c0e42f332d82c5fd5e519f1fbcb65e0a400429d9e158bdd9"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$4$3.smali",
+   "old": "704904972e329e65769610bc5cf19924efa55afe1c99b664f9d27a19b4f3a890",
+   "new": "7552f1e121d2226cfd1a92da970bfaf73cf773cad70eb412ddd77e9fa3defcb4"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$4$4.smali",
+   "old": "27a6b7db8e7ee9a7b6a241d977768d96aaa83db5591b20ffc8b6731afd508652",
+   "new": "06f840475cd8dbe02b55016171ac235bc9ab81662790eef256f2415a699b41a3"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$4$5$1.smali",
+   "old": "d89342b8ca63c0c792d58e4e8e8b5ef1d38e3d58d13c522051308e79ef05b5e5",
+   "new": "f8ee2c1d7f7a65ff888ebefac677fd76dddf5e9e0b7a0f499445b14c12894195"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$4$6.smali",
+   "old": "4db1aa317ea28e77b4d06926aecdf12c027d928e7b2ea76e5853e4fbb920b77f",
+   "new": "85b6bfe7ee21f98098f70d01aa13502937f44a17dcf9e6cfaf836e783505ad27"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$4$7.smali",
+   "old": "74f02fff96567f8d85435523e5204ce662908d4634e6e8433143b1c36c40a366",
+   "new": "54d90bf285647a1f6c701726f1a86571604f20f7c30d49219bc433b80d32a38c"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$4$8.smali",
+   "old": "5f13846c52ea842c4c64abb393bb16d99264e9e3b94d22e250aeec0878bb90c3",
+   "new": "7efddc24498ca9b23c6dc6b535d59a5c449be350ce0974ad4f986265f5854e6f"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$4$9$1.smali",
+   "old": "d070ed43abb6aa834031de9686e5a8fb858a55556a6f1c462dab7fa573cfa81c",
+   "new": "62466a786da99ce79bfc06a474e74575dd4fc42f2f640768cc927748833cb46d"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$4$9$2.smali",
+   "old": "76be5d1170c34ae888e7d50dde9bf773ec5d020eead225a20d8cd0f884da4485",
+   "new": "57268438627cb0a54ed32597c183c99c2d9cb3580e38ffbcaa0cb0d5328c50c0"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$4$9.smali",
+   "old": "8ab1b8cc099612d46094266edba13b689f1d638b4e48704d1f561cc82664000c",
+   "new": "dbeb8ac56e788024f2141e16447c10f63200d9f954815474dadd947ae5053500"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$4.smali",
+   "old": "8c5153ee6aa34a0158a14282fb19a66d3d0580f693cc56f1ca4856c0f0ac9121",
+   "new": "76d20caf39ba37dbfd60a3b7ddb0086900900d60ca19620451c3c5465a108654"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1$5.smali",
+   "old": "5cf4e46d4052419792d4605f4272aef0777320ad39d1c1d2574cb756f3e15637",
+   "new": "57f9a91907efd9cffd268ef2fc65e1cbd816faf41ee5997b4d449c10001a4de3"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildFieldHud$1$1.smali",
+   "old": "3ea67b23ac3accbc3ddcd94e8e735b4977d5023f40b46cb6cc3768c49b9c06d3",
+   "new": "6d6cd5ffbdf8353dcc3893119afe867aa06a7263357581608a37ca16f882dbb0"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildPerformanceOverlay$1$1$reading$2$1.smali",
+   "old": "a04253894efe485c733b7d70eb51d90b3a6c9bcde850c72aa43e2c6c01f6e942",
+   "new": "21135e24df1e9417a481d6f8e8a58b4c6ed2f2db8dee577cd545d0f2ca1a7dc2"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildPerformanceOverlay$1$1$reading$2$cpuPct$1.smali",
+   "old": "aebeb849a4648ddce978e5d1104458a4ab96568e85648fe2dc6c6ad21e7f151c",
+   "new": "c27051ae4c395dbc49cb183efc0c1e5e626abd96ea6652da8961a4feb66017ea"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildPerformanceOverlay$1$1$reading$2.smali",
+   "old": "b812317fc9f40089aa0a500a6778a2c72bee2fc276e84148c075cac1c1c6e3cc",
+   "new": "ec5ebf45e957399d2f2713aeafd6abdfbebcf0e6672b96ae794c39a51a3117f8"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildPerformanceOverlay$1$1.smali",
+   "old": "2c064e2d5acc1668f4c53ed83fbbcb32cda4b5dc03e87417777c42fd16d16633",
+   "new": "35f9b613357efed467a5b511280b52410b73efebb9539786f66a31431f3c2bd5"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$buildStatusBar$1$1.smali",
+   "old": "52634b11d238a759ce47f430da86c484f8ee67196b4a82cfd98c8d70097de481",
+   "new": "41a931aad381a5554179631854ff26c124ff9db7f9f92fba1b56113ed53b3017"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$companionSettings$1.smali",
+   "old": "a7a42a48ec39c4ea4ee09e7eedb832776d58133a07a3c0e1a00df6f9439ff2c7",
+   "new": "328ef45659a1dc8abe506f1a7d1f835f781a79c1fee033c4eb6a8cef56582d89"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$companionStatusBar$1.smali",
+   "old": "8e4605dfd4edf5ab4f08d29dbc6dfe0b667cf9cf97b0ae80c7b8a2b4a3a4726b",
+   "new": "e1eced68836f947eab9d7e8ced027c7b97de6c4f92106ca41fa2411cb9f986ed"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$displayListener$1.smali",
+   "old": "25265f1a3214cc6e1bac3be5fc7bbebab29c98528269d06fce8ee74723a9db3e",
+   "new": "11e4ab4c8b77cd3449d8a1b8d2ed3b33ae5ce0ad131a8504c20589a5525de2dd"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$dsAction$1.smali",
+   "old": "a4e11951fcf07435950890e96967d37febe6635ac0c05b0ae2f9aacd7a3f8e64",
+   "new": "f3c5df57e1a88e4b7889415838e2b4168a6ab843551fc785941c9db8bc022471"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$dsAction$poll$1.smali",
+   "old": "c541e74cfc14df5d4b8a68e1b9d6401fa85913eaacb8764d5d4e0d8df85efdf2",
+   "new": "f1f7aa38973f1ed23dd8057a5289fb25a40b5a373baaf55d6352ff9c196e13a8"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$dsOrCompanion$1.smali",
+   "old": "57854ea1763ebfb4024f3bf7394c10cc3caca5cc39343b996e64674e038e324d",
+   "new": "8eda4384290f38f87ae1ff769266983888ced873190d1628b1b93e4df906b5b1"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$fieldItemSupport$key$1.smali",
+   "old": "9a5025ecbe03d1c08b8da90f0dcde2ea2c2e57d21ac8060690a662138ff538cf",
+   "new": "9d44307c30e55dad066a9e029b1729ed80c8aaa418f3f471c08cff3e06098edc"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$fieldItemSupport$support$1$1$1.smali",
+   "old": "3bbae064afbeb098ca3d4838de8662c5f2ced625235e707adcb9879a79f42b12",
+   "new": "11be9cde1e116bedc484fdac7f773239a8cc2a63b9f1ca3253feac8d02a04d07"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$dsTargets$1.smali",
+   "old": "9634f580bc514c3c0e602f382f0e3b2941d5aed3f87ea07ef43c087eb97c79a2",
+   "new": "2e309102ab9b47442af3848936c2bbebdfd8cd41b4a5c70219211eb6e30d3e13"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$dsTargets$poll$1$open$1.smali",
+   "old": "4a8011b32c52b90461b370c00359f5bf0004699b17a047586f81054ffc085d23",
+   "new": "8d7e7a35d48742d2f57e684eb5b2fd16de514d64da4a81591d18a8e7a44ddaa8"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$dsTargets$poll$1.smali",
+   "old": "5fc8310cbfaa1c3af95f6cbcb0e1b93d051d5709ee6c43e1aab1ad33173877cb",
+   "new": "be1943fbaad742a2dd548d327ccd84ab867572d4931818e5e86baeb58d209f16"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$fly$1.smali",
+   "old": "8e587fd02e0972ef4a087aa7400db0e4bd04183e485617c4c627658a5ccd6f6e",
+   "new": "6846972433a253e6cd08a14b0c506b3577aac95311e8fe17d982b0d1144b8429"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$fly$2.smali",
+   "old": "a3cb4b8341b94d3bbf61be2e25875ff3adefdbd1c2b38f9dd22444dee10ab033",
+   "new": "c2bc7021cb4eda4178cbfa499b76b520aac3e5f44da71fdba3779d451c67e5ea"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$fly$3.smali",
+   "old": "35c4fe0de67cc4f0dad4f558dfabb9d10c638c411f6ab0223068a6b0c5ac8101",
+   "new": "7bf55f40f16702a3061278ce150aa543706a4f1e112c38306341ce33bfaa9952"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$fly$4.smali",
+   "old": "b892d130468368fe8c07dce2fe4183e73b6c2a1fd20c4ef17adb86175d9663d4",
+   "new": "42ec76e5e1b25720d375d7d13b2fb53cafde67d72ee7daaa675c9fa2d11be47a"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$fly$5.smali",
+   "old": "f66284c841e2a98154fe19e4e1d00df7f22b1ac79726cc3e789eb8898579b6b8",
+   "new": "9238f70b81e52ca0a43c651fd3d626fb3822e22a6455789560815ae647b7c051"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$fly$6.smali",
+   "old": "fe06757b291c3c188957491338bf0dddba51d3460a654d5c1759886cf0671db0",
+   "new": "ed126f641a0b2d751d7ed9e81a1ea40470f02478317b904560d84d58dea05c5b"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$fly$7$1.smali",
+   "old": "45de631f3fb5dbf32431cffe4f32cb53a633e77c89ba6397ea8b351479f3506f",
+   "new": "5924c660100d722e48227475c4a5570f476f58f07caa5a8145eddc746a5efdfd"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$fly$7.smali",
+   "old": "24b3d2562a8b3b9985520855893c7c049a9b1de059ec4cb3a8d98b5927d7c50b",
+   "new": "f18983118d08aaa44fe63e998d492ffa191cba160c405a7f5eb8deed27e1830c"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$gen5Targets$1.smali",
+   "old": "8cd662f97adf81a2e0f5b8a31b8fd48518f7c71e195df4ca0d9ea9bea4f98170",
+   "new": "6be0c8298f627d792dd697441df69c088a75588ba5165584296378816e081ddb"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$gen5Targets$poll$1$open$1.smali",
+   "old": "a94e2a477e89e0bfbf7b3ec7748b18f5c2e784ee60b70e676593113baef15236",
+   "new": "1ab14da229d9a9e7631fa53426101bdaa8640b66c4b2c4a2055447fff3720f9e"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$gen5Targets$poll$1.smali",
+   "old": "c862c007bbb654ca2162cf491f5cff32ff1acdbd9446c81630f666143467ff6e",
+   "new": "0dc6e20cce6f89964fd9b72ed02395d7e2383ec3fd6cf03d1c2566c7a83497d2"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$targets$1.smali",
+   "old": "3bc874411df7070c7d97b68ff617446cbc2efba5ca64e1f5438910b58b72599e",
+   "new": "5b5e6071ab3d50ccaebf33007a5aa8a2676a4551ef6d1cd652bdbd478c9826ee"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1$targets$2.smali",
+   "old": "13c4f0333de09301ca66cb6f331234bf0d7a2ea9a6c6cde3357da307133d6fab",
+   "new": "6cb551e5509aed6bfb7ffb7177c6a36477fb0e3dd0a1a5f74f11c3d08930eb20"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$flyAction$1.smali",
+   "old": "1b6d6ff2066fa6eea7735fc423fcc6b7bdb29057b06425a9baafedc0bec8c681",
+   "new": "6111918ba54275d1c221ef59d2ed6a1d1691b5a383a9c57922b9c0722b444610"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$gbField$ok$1$1.smali",
+   "old": "fefcd072c45ff813e33e50450078a1b712a6ec212f6ca874ff3ee5ddd0f0801b",
+   "new": "e753dea0be6fa8dc046b4e007bcc6637249c133d8e1d7e4a9cc6d0bd39827e17"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$gbFieldAction$1$1.smali",
+   "old": "a60863f45961c85fae470a5bb8c4df935d5d81416c5f1f75509354cc4d664d33",
+   "new": "4d0d7278603f3bd2afc22f01df7bdf486b29fc8ff82d76aeab382deef1ae02d2"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$gbFieldAction$1.smali",
+   "old": "eca2ad34c5d990442e8bf6495ffa1c6e347721cb16213d86eb9113e74c7eee92",
+   "new": "4738f1df204978d7a1986d42c28a31490388fc04a3881483754f6a1a54ddaae1"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$hotkeyTakes$1.smali",
+   "old": "17ec7005d783033021831cf12e2455204a39f26e8ae7813973fc30399e5c9d8c",
+   "new": "fa2a7606bb23b3ea18f400778a36f296eccf292f090624e047ad2baaf6627924"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$inputDeviceListener$1.smali",
+   "old": "f93e1ae8d908c62af565439558d7b3f0c50ffc0f1300c4bda6f682bbb63dccdd",
+   "new": "b9960626dcccc3dcbc54311d145021a4d98d97796d61a885111f2435dad630a2"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1$give$1.smali",
+   "old": "ab46875f691a5b10f5fe468d59be21720f36b744823d9aba6b8588888143d0ed",
+   "new": "44922c7c04746ecbc1aee9ce631c50b60f20fd12382d18daa007a40db6c147f7"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1$heldItems$1.smali",
+   "old": "c686494478d609c606765f960055707d8290a7fd9a8263bfcfcb21773f7a6b5c",
+   "new": "41ee5849b76ea54d874ed1233246e215c3686265cc7a9f7444613f077df4a9a4"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1$onGame$1.smali",
+   "old": "87dccc90e6123595ebfab38e7aa970f5dfb6e273d7860f555fb1a18de441dc2f",
+   "new": "daeecf95b9c41c387972628710083f92d81fcc0b1b5424c22f3655d522cf10e0"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1$openPc$1.smali",
+   "old": "d66b34e3506066e162c49970c345a61545f9391709afb733f9bf1759de6ee2cb",
+   "new": "1e2ab71ebde17a852b9e03130bac1e68521eba36ad7beb6af0d135c6bd9e48be"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1$openPc$2.smali",
+   "old": "78e9d869e47b3dfb99e6c4a37e29b22352f78e44daed86f4de1d77fe8ee62e5e",
+   "new": "858466e4beae63ec754b03349bc68edef1fcb92d7bb8e5ff538e3c439149da2c"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1$openPc$3.smali",
+   "old": "25704dc897098aed775e791b2d36c1c2e5ebf1b848f485e071f91605036486e8",
+   "new": "5adf527587c8de57e38aa38adf2e69f869594ead8b3c297c366b153b53d839b9"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1$openPc$4.smali",
+   "old": "acce22fc3da7a8410b1adcb326fe161fe8b387441b369fef92a2cfa152fc44d6",
+   "new": "a53ccddbf654c9c4df76111234e780edad1062bb8b3e32ce6ded1f7a6a540cab"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1$openPc$opened$1.smali",
+   "old": "2f56c6008f8570f4e72d0bca9c7bca90078abf5dedf339dc4a3bfa4d68d8b929",
+   "new": "8b6ceb7d1a8eb3633500da9dab2e124f17a9397abfe67863fdd795b1a2768215"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1$take$1.smali",
+   "old": "8e2bd5a83f144324bcc0a0eb720032d0eca76e403d5c7adce3c2d5fab78d5701",
+   "new": "44c3c257c85722a744f1427ee0059eba133d3a73f1ef3619cc1aab35092b3f6b"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1$targets$1.smali",
+   "old": "9e196a950ff0822a70d17b7e6ead2d13ae66a0bc2ac6ac226e58695ffd8bd8a5",
+   "new": "ebcee8e778ab825933117df20fc90cb0332401ef42af620776bc2eb31dba7374"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1$use$1.smali",
+   "old": "4d6d6bb6c4c2bec76fe23b24b95f47d5ddf1026a530e5b5eb5c6f5430160ea49",
+   "new": "02e9bd1bd692037ca545b7e00250811c00f4a56db3c997e7549c81af75da3674"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1$use$2.smali",
+   "old": "1184edf86a68639410b7d799107ee0b6a160071a9ec140f4c6b2b38c11bb57a3",
+   "new": "4c5dbf0c22a18dfa1def737970f47fed1a64cccae4ecf18269bcd07d0ba727a0"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1$useOn$1.smali",
+   "old": "5c69977f7b90f65638aa0ef7d5983f922b3e90aaea701de1ba553058622dd9b7",
+   "new": "285256b7cbc88e0bca577ac4ee4e1cdae65e0d21607e06c3b3b72eb6618f2c89"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$itemUse$1.smali",
+   "old": "e20e7433aabf03423dfd0f09e73767357968019b401ead7383fdb3c8b991856d",
+   "new": "8cfd287dbc82cb67dbadc50109dc32cc9a83728bc5d745c9837f1696f2f6fe78"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$1.smali",
+   "old": "ab00bed717762bf18973761e6ab3bafc6e811f2e2aac73911adbaf5f45e1bb65",
+   "new": "7b5229fbf2a06e870ac574823624e20e15b72778b349c48fc2b04eafbec6be53"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$13.smali",
+   "old": "dda5b2e9e9dd369a5c32fb92db4a41e8903a44a2360f7a4fb0ab906aa60e03a4",
+   "new": "76824dad0f881526f9bb64262cc2cd5f2ec3dbe4509685accf3b5f9ca9dfb515"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$1.smali",
+   "old": "ee59e886ad2e4be863e65d4e6e016111eabca2813a54d290e176cf5859fe05e9",
+   "new": "32a3a849cad65652d789b86eb87031796e1ccf018d960273fd10f9d6041ae511"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$10.smali",
+   "old": "e35de5ed7ec2340511614ccd179827250d336228646463d444bac1c43b00ec01",
+   "new": "e43bf65b3fdd5eee7ab2ef542f3cefded22e335c36e915964e7be22d2ba9092b"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$11.smali",
+   "old": "61b60220eb26efbc43ce773161dc957891a4cfc48ad5362f816a596f2750ca11",
+   "new": "3f7aa3b71b0df5aafe8857c55c60fba8c9803ccce853c6338f195940f96c5480"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$12.smali",
+   "old": "cbbc364bd38ea9531df0d440b8e259ff98690e476834ac157a2c2ca3428eb3c9",
+   "new": "c4469d2066d2ca70e89251fffd6e23f8198070acb060f767bacd57f2acabb7ed"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$13.smali",
+   "old": "451eab43eddeb6b9b78d5cb700eb7a09cedfa8dabc1893a0a5184635fb75c838",
+   "new": "20b2560cbc3fb3caeffe2e1ed04df44f243fe0cb4156b8f905eaf80ca1715936"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$14.smali",
+   "old": "aec3e083228abfc61a124cd69e90469319bbf3841b404f71f8ce92b2c340f107",
+   "new": "efa7d68d8fad491aac50f64b8dcb70268aaa95284edabd160336b42fe0217d6e"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$15.smali",
+   "old": "f707aa60f2e5148c3399b54c11bfcdfa1705daadcc569e66028b7e4c15bdb6cc",
+   "new": "1d8f35100f1ce814151ad370b42ea9f6fab8aeabdae81a6386412f16a9205cc2"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$16.smali",
+   "old": "24d3ce4664e4e3680d1c64809d335cccb4ea4ba593f92fb490726cbdbf86d30a",
+   "new": "bb7d50e49928afe512d4587d371584fba89139b84fa3b44da2c9010238e95f8f"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$17.smali",
+   "old": "b8c4abf90c19cc958d101edf4c865cccdb5fcaa22091d4af8c61ac129659f084",
+   "new": "3d6bcd9e108a372af950919ce5d7fcec0dc446e0efd1b8071994bcef3292529a"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$3.smali",
+   "old": "0ce8ce0117569acc99632a50bb46ec09cabe02a43e059323c58b56b80ad1bbac",
+   "new": "e166092edaac8c4f8ec1725653239627e4a13cdbe9bf8ed945ea85eafdde9e51"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$4.smali",
+   "old": "9b9285ee795277cf53b3fedf2e5f02d0969afedcd7e68605b87402a7c63735d6",
+   "new": "c4bb2475befab2c2561078ab54e6f72333104470e6693a6a6f4fa2a779df973b"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$5.smali",
+   "old": "b7bad54e10ada9fd1c05e4e86910dd5ea4cb3d968e3d89db832ec695acf7e491",
+   "new": "e5c3cbb006a59d7e737998f824881f28ce63ed810cf58eb6252b866e558fb380"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$6.smali",
+   "old": "e51d107fcc4ef3785dd57cb58531f1a0fd1f4ec10b3fc6af19bd3c7a9fabe080",
+   "new": "e6b43d4de4796f5403631872f3b5c005be08b43caa5513786e86bf5c7022d43b"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$7.smali",
+   "old": "3aee7e28afba808c05aaed92f57587b1dcb4acefbb84492b0ee7c340d0b95f5a",
+   "new": "e87208bea64d0e293ce80c126b082b999cbf58d645e651290030281d43eed128"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$8.smali",
+   "old": "bd0cd9bfa7e0d3c14a9b9ad1d014225c2b9af7b47f25d342e6c6e8044b6229b7",
+   "new": "9220c5fa98802a2a184d45f839693c58b0e9dd8b299da7ae9acea6b55aceba3c"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$9.smali",
+   "old": "26a4c3b9c12ed3421934374ff8d2283eeba72811b9b83b069f617315e1935993",
+   "new": "54877041b9a9d0ee53fa74adf07472a8e27ecafe1b149cf7dc14dc0c60142bb6"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$14$afterSample$1.smali",
+   "old": "53e486a7213e03d9051f8c089c96df0a6c4fda57d456fa7dd7fbde1b318e73ce",
+   "new": "5f5d05f1faf599047e8f6afb357eedc6cfe92a2a7fa8799db63957fec9ff671a"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$2$1.smali",
+   "old": "a49b0dad12e21c1555171ed3b73be747b7d9b1dcfcba867333c70c648522801c",
+   "new": "cc7d67dacc8e1a5f1376c4847f86dbec49efd26e77308e5f7e6996a9912f0944"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$2$2.smali",
+   "old": "bb757a8c8596f2e880df815437375385c77552a523b03ee72d3d855957d4a6a7",
+   "new": "2b8dbbfa7575bee590492541178677ab1f9c017f387bddb1863edb1b00a16648"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$2$3.smali",
+   "old": "3b6418acac5f41ad6f9353802d0d5091dca354cc559cecae1ba035a5c39adf82",
+   "new": "a3652b77937cfd7548732936bd937d2cbb9717b439a8b14359c2d0fc406e3924"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$3.smali",
+   "old": "ab43968e9abb75f0accf007f0a0cea976f9af2583a4355765c48ef60d59d9847",
+   "new": "2c99e2e9105b129ca5808ad401c7a893a5ef945c2d23d13b453384d21f7c4a76"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$4.smali",
+   "old": "58c7a887ec2d68f62dd795166421773c7078ebb8eb61ae1561a520024fd32c77",
+   "new": "05010b72baf914909573008ec779f7759b2b79a2e6e55d552f16529bf50af7de"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$5.smali",
+   "old": "8ff4e18ad8d3cc724c0e0a10f1438ccf7853c3d080f80295e1d88ed699bf3a02",
+   "new": "2eb419d47c17fc917ccda2e30ac86d2dd810d4b004d0508019b8df3fcef256e3"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$6.smali",
+   "old": "d433642c931176b47502ab58ade2713ed5539e8054dd3d9068e5deee23815649",
+   "new": "67150ca15c4452b70a040d587c7002d737a63b455da1ea13edc9bcd521211931"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$loadRom$9$sha1$1.smali",
+   "old": "bd61f6069f4a4f6f3df669492f3f0a8b470ecc370811dfbaae083d354066136f",
+   "new": "04bad87b3a29fffbf7f485203879a6e411d9097d994b721e580dc8ca20dc67ee"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$1.smali",
+   "old": "d0647617bb941eef4dd80268694866ca17dfd13781c4a5ea35ebd9e42db7c01a",
+   "new": "ea7350bb2d5fdda50de1a49fa0121ad8d1b0e8a54af6b721e7ed2189e02bb256"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$10.smali",
+   "old": "2ea3bcdfc57e75238de049cf7cd1105d3e6d6b942b7415f376e1afe68c2ca0c1",
+   "new": "41b1f03259881c435464ecdd3ad5bd016e7114341ac48497bb9f3ebb2c2a07e4"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$12$1.smali",
+   "old": "aec7fae834feaca4a27715f0eafaf22fae81a3e0a581c52342b6d05606b48452",
+   "new": "0a5f67173e707fe7ee035f753121208310498aace7e0f424028f01b5b0e5cd49"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$12$2.smali",
+   "old": "6c802b51b591c64a865d031c94511a2d8a7f1a52d62b10d78ccca344ed57c93e",
+   "new": "09aa792be00c344b320df12ca43d20e151d4eba456d05436d1a694bbf024b1fa"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$12$3.smali",
+   "old": "9b6034b8b2d4b1776a6020722c9cb67885a9aa5245b78806064a09bb8c47bd36",
+   "new": "d126461d8c9c76e7d42b0a0a6f1ad24f5ce155c1601b32497b62189dd565a69e"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$13$1.smali",
+   "old": "1ee8e40c626253b65bdb8c73b941155f97b58148dcb00afd8500d03207fb81c3",
+   "new": "62763e1cdec65d3e0d72fb0c75425324612a8ac72c0fc052da8c245d6e36b206"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$14.smali",
+   "old": "aea2a1f51ce6498db30bcd49fc9dc423a2cb1a20b88d245408fe97dfa8b417d2",
+   "new": "9ab4e4a8a1e4b9d1f984f615cffe87fc788d66b49cd8017e624b1f0abce6803f"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$15$1.smali",
+   "old": "d0ba0abb02ab206d99bcd44fbd20346ffbe3371256b92fa7f7562f7ae6a61f97",
+   "new": "f4d5c3d9773823acfaaf513277fcc0ed37f557e6a8785bdd7be41dd6613eda68"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$15.smali",
+   "old": "f0808e95be421e14690d3b839da7fdc35ed6f233a7fcd7da95c84e5cbf5f5719",
+   "new": "afcb80f84516c69a08b6c8e7d7640d981a2c3eae2b84a083b2d6e679d50d5f8d"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$16$1.smali",
+   "old": "8fe9ca3a94585acc040647f5384addf4153b8c0899be87383e387683abde5804",
+   "new": "558fc65740fa9732f546bd96a08eca29f002a30317aa103a4ccb0c487bde153e"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$16.smali",
+   "old": "c3c172d7217767367792cbc660ad26b2a8e8880f9be0a50f207ef41466c8ca8d",
+   "new": "58d3762cbe5a38669fc17c8340aa403502b2b0868da9ef276aa4bb777a497941"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$2$2.smali",
+   "old": "6996ad53b9ef0d93cca4bf1b482043204cb0a6e735e66850908a39dd30332d02",
+   "new": "ec905cc82e49a8ad3d192c05e0a38e19b75c7d1a2ec30310573b91a10df1d080"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$2$invokeSuspend$$inlined$map$1$2.smali",
+   "old": "e4ea86dd7cefdd7b561bc3cbae460b34690538c2e0aadd40847ed8bc88a3593d",
+   "new": "998e1f5385f902ce611ab3eb892e793ed29c3ed86a01edc67e1e9c78247c5559"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$2.smali",
+   "old": "6615db9f3880af25f922d7d994fe11ff965de21e0679b76cf5aaf9e93a3831b5",
+   "new": "f7564e9b4fabec3184c2a67c9777242bb01df63270f9c01e958729eefe75c0d4"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$3$2$2$1.smali",
+   "old": "2872a93e6aeb51a5f4e565330e90abba2be4836dde7430b4e16eaca35af3c47e",
+   "new": "c61cedeec76596f416e3e61fab6d17e38464a62c14c1f18024786e1d7c39bbbe"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$3$2$emit$1.smali",
+   "old": "20f21dc971d18476cf10ab47e1ce952c468236785bffdb89bbc456194b088978",
+   "new": "4f3de345022924f8d54d45b2c0f38526167137fc10e44d05ad520e10359712ac"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$3$2$named$1.smali",
+   "old": "b71398d484ed3faedc479cd2d12ef72262d02e1d4f82d6542267017a3647f7d5",
+   "new": "c5c041e21fd5f35439827c4d331f3dd496c44cf8bc54071fb17105375a58d580"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$3$2.smali",
+   "old": "d4a8db3c16ffeb6988fbf38fad2a7a499933000b3c5838b14b63c9dd4a0e1fcc",
+   "new": "aa03f5acb88b0f6fa474c67cd9ffe61700b712f9fc02a1933c1b7a846999b84a"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$3$invokeSuspend$$inlined$map$1$2.smali",
+   "old": "254172f0b6a06a5cf5fbeaeaab4158372e0d3b42665d276bcda26d6c47ef2e1b",
+   "new": "afc26828e5de5f7920f65f9c2d619ac358a00b81dec4ff69a81cc2aac6d81bf5"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$3.smali",
+   "old": "361aeb6f97ca6cab93baa3180756bf04e71253ec00eae1ddfb95d2b6520413c7",
+   "new": "58f3ea95aa01fb3f762eaffef4adb18860c3efb352b1bad73f89b6a457659ed9"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$4.smali",
+   "old": "efc8d76747dc732abb1658c7550ac53990c698c8acf3fee8b01b922675a3eab3",
+   "new": "9f6398d9bfa434292c7af0dd1e12704504bab25a07b094f51af9ee4215c201fd"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$5.smali",
+   "old": "e345989386ad855529fdda34ea97f311fd9eb5d4ab2df5f02bd7addd1b8451dd",
+   "new": "a5d7e2df19ba0cff570f431b2bcd8662d271157047895a085121b37725e3f04f"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$6.smali",
+   "old": "9578ca9e12cbe7ee2df4c929ab114354751e0eac92222b46fef5420284b1f88d",
+   "new": "0d22d881f5a6c68b3f0d05433ec1659f67ff36460606aff95cda3dff03529ed5"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$7.smali",
+   "old": "308f583eb9f6e8ba2d21d682e41253ed6bd90c71e3a97957dd674b6eb8eda892",
+   "new": "bf99e3412a07f323da2d1a747316061294afce0de38f6d2eadccb1b2a292ade9"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$8.smali",
+   "old": "d146d269ac188fc1c01616eda2462401c3d5b6ee275828e43960288b59e0e535",
+   "new": "ad736453000aeb9889b18a9295ef53f044c188f4461c4fb0c5b3521e906f935f"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onCreate$9.smali",
+   "old": "c76c5a0c79393f3763ebdb449b7b61e1b933a67750567701ccd408952d240d53",
+   "new": "9253c4915b79217babef63e0a7d151f674750c44d200701bc5e407fb55fec87d"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$onDestroy$1.smali",
+   "old": "3f7f0f75b67aa38b29f442342e58cdd3692610c2c650987b69d843a71fd053eb",
+   "new": "672312c88defdea2b95b4b56b8a05634574409c737824b4a33e155e354f1d207"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$openSecondScreen$3.smali",
+   "old": null,
+   "new": "9de661d6fcf2ecf05e9674ed86fcbb96067b9e1646ae8bce34a818d0654e80a3"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$openTouchEditor$editor$1$1$1$1.smali",
+   "old": "b83b299cd4bd9232537c73b7e7b4fabf217341cadcafff45439911be97e5ced8",
+   "new": "4fd4ec5c3bc5a7252cf34cb773388a8f024113e688bcc663595915d7d0a169d3"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$openTouchEditor$editor$1$1$1.smali",
+   "old": "d46ea372086d2d442bff50565a30d3c32395a04ac6890ba60de59dc2749470d6",
+   "new": "1e1bfe90455859ef6a9f65669acd7598470920454602338496d5e0f29b28ce07"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$openTouchEditor$editor$1$1.smali",
+   "old": "44c35afd72a1501f842047f501f0a1d09359c949d5d6d08d45877f996d3bb063",
+   "new": "88c4a296e1945f59f733909207238ae13d28b46c95be60dc16ce84f0cd3317bc"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$pressSelect$1.smali",
+   "old": "9de8226a63645e954e099e56124aafb60b8faada97c50c3e9b7922d4113a6490",
+   "new": "804bd4e4ad10a10dde91713a39970042932ff2e34d2240d39ddcd843d03151d1"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$pressSelect$2.smali",
+   "old": "b29942b90a181686a903ef563d7504a23b43486494dccb3851732a76c8a53fa0",
+   "new": "1b9c23fc65a4b5383771202cd3c7eecd1bc4ac26f26e4d4ebf428ef422bea9a9"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$pressSelect$3.smali",
+   "old": "bea10a9d25163152c872cc025bed5e02869c5682e015dd199b8ef30804884e46",
+   "new": "1f09c0b302358d6d439fe92266a87b3741e5d0a43d5c5ae080665b61f40ebf98"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$quickActions$1.smali",
+   "old": "fc84c3cdf7f33aa8d36036dc3623b221fbdf5bc78629724e38e3c518f2864872",
+   "new": "b3f7cec99d904ce10428588d87237d79279b0eaeb9df021b89e05f1f5ef1c953"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$quickMenu$1$1.smali",
+   "old": "04da722139d0ab57e0cf71f111380e295693194061f840365d3f0175d9dec84e",
+   "new": "a59179caeb206eaa2c35ff199cf76e3e87c4a7f00b7b7e418cbaefde08825c06"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$quickMenu$1$2$1.smali",
+   "old": "57ba00995ba5dec15ca7fcb89462a2f9b4a48d2d7100054f3628cb5caf2e3582",
+   "new": "485b4fa0cf3ae453279d5e566284c55c6a2f52bce482f714d2a54eb747f83485"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$quickMenu$1$2.smali",
+   "old": "18655ef7d3a1f961a6c21314c7d8d81103c5b70da8bd7b558784416feed18e74",
+   "new": "ad5a1fe3e105742001adfd288f3ddb8d61e56e7537ee66d0d5497e8ca7e486e3"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$quickMenu$1$3.smali",
+   "old": "33589b6479fe3a7b71e7b2733de1b7afa4427d308af32356e6e3cf2e57f22e1a",
+   "new": "50c60e9b09623f91bfa06ecbd273aef83be8ee21205b193594c7943959e74505"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$quickMenu$1$4.smali",
+   "old": "e58a8f44e8667efa870f9f50e5e4479998666576c9b49b264d84d179311bdecf",
+   "new": "41d744794281e410ebbe9cdd73b1cdb6881b78a2d0adae5cb278ff6ebbb67ca1"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$quickMenu$1$5$1.smali",
+   "old": "2508d2b9537aa83571c116525bdac8d56b341912c44e49ba5a19e6828520fb19",
+   "new": "fdf6cefb7f55fa7ed3d65ebaf84923caaed47e4e5ca1191b25353f32f261f7dd"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$quickMenu$1$5.smali",
+   "old": "8bea18e94ac9cb01442500b801be52d68fd4457a3df8ed22206f4ebdbb26136d",
+   "new": "f64965f5c8cfbcd7ed18b9546031e5e6bac317bdc3d7551fdf40a8ef52dbf32f"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$resolveRom$$inlined$sortedBy$1.smali",
+   "old": "44756b09e55ee47a280e496671342f96f42307999ae5dc7d2bf67961224a41cf",
+   "new": "c38e4edd7eea512ac58e5b22588d54f508252a4bb18e0c7385ebc9e0877e6d4e"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$runQuickAction$1.smali",
+   "old": "a98343e219bd0418b4798702a37a8c7e7acee10099337ae60c391ca2d68cf972",
+   "new": "2972348299a8cad2ded1bc4a6320b7e80c9886f1faab12b1df106d3c7c61d17d"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$runQuickAction$2.smali",
+   "old": "a21ab9e6c98c042374f17913a15afa5f63335695e17be27a223d4110ca048914",
+   "new": "d7c119b80196adcdd5ba06df585a93578b15cd6da103088f925cdeb36a216e22"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$shareBestEffort$1.smali",
+   "old": "816aa2e06d5bbeeb6b64dcaf385424437834d5a6f9cdcc59942db872db2e2df3",
+   "new": "79f3cb93bf0dc3124b0ddac7da03ec128ad041c74fed02951933efdfb07658d0"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$showMainCompanion$companion$1$2.smali",
+   "old": "ca2ce0f723f9a2e8dd0709a30815dee947c1f630377d70131698c1f8ff46f92b",
+   "new": "c7383913a9937bc88a17d2b92a474d3076b028e1ef946ee3afdbb2d4db55a23f"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$showMainCompanion$companion$1.smali",
+   "old": "31d81cc7af1c5bd7124d499438e45a137b50257e272f3d08d0c89dd0fc27972c",
+   "new": "d69178d575c9ecc94f493d9a0f4da5b03fe118058a918e5b28d1099dc165dadd"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$showMainCompanion$view$1.smali",
+   "old": "cb67a86e06f00037424c658ce829f849da3512a155222f54c69e300d5ff18d5e",
+   "new": "82e3e51a789f41650ec38742c5d6d90f69ecaba87ef33ab4d563ed8c38574a11"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$stageRecomposing$1.smali",
+   "old": "274de3293ee2f9ef11d6ea23699a6cba49fb82180a4b41d9374828ffc67969a2",
+   "new": "ba5798d1c5f8ddc349ed0c19d68cc5ed41068fbc3653beedab0cbd0e74ae4b3e"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$startPlayClock$1.smali",
+   "old": "59fd269505a10f7193ea7d026a4c1016926d88f7b185a9d706ba3cdbb458f72e",
+   "new": "716cf309190ca209b4ae88143fbf180bf66e17ebb271f999b708ee4e08f48e52"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$startSample$1$1.smali",
+   "old": "d083fcf9939603fd22546b5e08382d109b5bb0d6956430ccd88b4818f3643569",
+   "new": "e614f835c8abefdec7731b3ced98d6e611a127b175667a2744086029023e549f"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$stateSlots$1.smali",
+   "old": "d18066436975bf86d0f756a035b649255cafb44fb3a7b9b2b17ebab9611a0a2f",
+   "new": "dd9574452d0cbfba25d88b1e5133e04a78450f39eb0db320480f5ba06ab969a2"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$syncPresentation$1$1.smali",
+   "old": null,
+   "new": "9048203c73c6a6208410b02ec1a8e2938d251331bc8883ae893e8cb48f81651c"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$syncPresentation$1$2.smali",
+   "old": null,
+   "new": "abd83c75d5e1e764e4719bff50d39ff24d4b9717d68465c4cb9f07406ee759e2"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$syncPresentation$1$4.smali",
+   "old": null,
+   "new": "0ec74905a65045e9038aebbbc94d59a91f5e3f775e70ff13fe3e5c3b1202b083"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$syncPresentation$1.smali",
+   "old": null,
+   "new": "651801d2067454372d9c6c8f5e597cc169bc26d5c83a1f1f249732f8c14ff8ee"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$syncPresentation$3$1$1.smali",
+   "old": "b4a961df45b4f8b48a44fbcd39361bf9ef22ec1725c697ea9d7b8725892ffa13",
+   "new": null
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$syncPresentation$3$1$2.smali",
+   "old": "fd16381710f6e8c57428acd33fc77077d62f3e4c5b0a5dc9b24d44c8033639b5",
+   "new": null
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$syncPresentation$3$1$4.smali",
+   "old": "34b251e7d9991f942c3544e6bdcf2c0b9644d1f7cf8d4352622ba980fc8de22c",
+   "new": null
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$syncPresentation$3$1.smali",
+   "old": "d12e1d8fa7368054dbb41860a99e40189f3e01624c1722199b347bffbb1e1e96",
+   "new": null
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$tipKey$1.smali",
+   "old": "684569cef73b07b9396eade69b5fc00c0480888e3e5acab5c9ffa7ff67e6fa94",
+   "new": "323e44e6e55836b6d0403ff0e727da9d6c74d6c4dd95bc094319751af70506f2"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$useKeyItem$1$ok$1$1.smali",
+   "old": "953c758c57bd32c2acc4620bfce5f96605487db3ca65ce1ab02ba11a0dc6acb0",
+   "new": "c72648c285abbce7f9a7fda10ece11056e1327eafbc11949a344bf3e56bc9fcf"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$useKeyItem$1$ok$1$2.smali",
+   "old": "f0a201093960ba2ca1a270d887ffd281067af2d603c1d21a8120494e1a0dcfcf",
+   "new": "04bff4828da19b6878446d960bc916c037bae0f442da026811283a39c42db278"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$useKeyItem$1$ok$1$3.smali",
+   "old": "7657483e3cc0dc833f28f68fb06f0460069a42da26436e1e4036afebdb4afcf6",
+   "new": "c99d7299ec54f0707721567ceaa09b7a036806634b0e46538b30bf04255f3d2d"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$useKeyItem$1$ok$1$4.smali",
+   "old": "cd69b89cb10abbe8dde0eb40d7bddfa3c8f141e19fe4122567eb3923d062c826",
+   "new": "c6e0f7ec3b2aa493c7546fe04385d0db94930382ca9aef335575b2f41f1d57c6"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$useKeyItem$1$ok$1$5.smali",
+   "old": "72bc2619abcca6d62a2384f4ceaba41bfe59c8f6cd9b39589d59532e082e6588",
+   "new": "bcd337804d9db40feac4b5ce58581996a947f25574d8d9337e9d45ac44aee60d"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$useKeyItem$1$ok$1$6$1.smali",
+   "old": "8924a5200e1ad93b6b04c89e92ec83375abf0fc2286d89e3a98c1cf707867179",
+   "new": "8b0c71adbb046f6bd8f1368b6dc1aa5e3c6d760c10fdfc9a1ea8002cc7ba43dd"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$useKeyItem$1$ok$1$6.smali",
+   "old": "24ef4acf04f893b4e972cb0e484a60502c652a1757e7efbfc34327f918583671",
+   "new": "7bb644d67a694fe31fb4c867eaa22db053521088b2ff651c2d1e521292e6ddfc"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$useKeyItem$1$ok$1$addr$1.smali",
+   "old": "dcc60aa10b4f27b7a610bdc11701a414fdffebbdd0a318ccea54cab954d366b6",
+   "new": "1f463ca383100629e464ffe257084e2b2262180f62d737819a1fdf7e6df3efe1"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity$useKeyItem$1.smali",
+   "old": "ac98e1e5bc8e7df2370e4b3f4bafe043038f86d3d9acc01a41e0a343a6aad53e",
+   "new": "e8ae64fc14a68daabcda5bf0bacbdd583cbe2c47df59d72e77c50355760cbc2a"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/PokeDaisyActivity.smali",
+   "old": "7daedccc45ed323a96a3cb168b27e7cf49254c1899d4b8a73492baeb988949fe",
+   "new": "345fc33a0d72c3197b0f11177b7f7ca0d3f78a80b3b28d3fe08d694f6172ff57"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/Screens$describeAll$1.smali",
+   "old": null,
+   "new": "91e08c83f9f122d36f7f7b4d3232701b97e7a933a0df9824a6f2389d7376c9df"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/Screens.smali",
+   "old": "1b8ab8e61421051566c459814aa08610679a96062143960d74ddaa63e31bedb5",
+   "new": "5537191e7b8384ea73ad41f044f3914616f2031eff79531d56d8ca305d138f93"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/SecondScreenActivity$Companion.smali",
+   "old": null,
+   "new": "dee45d35966c5d8d39cde89d4a3748b102753815c1aa470056416ed77b66f73c"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/SecondScreenActivity$Window$$ExternalSyntheticLambda0.smali",
+   "old": null,
+   "new": "fa784ea33b80bbc815610492a6477175d56e78366b451acea22cee0b92293089"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/SecondScreenActivity$Window.smali",
+   "old": null,
+   "new": "82e9e72a539b181837ac7527f7a2da76e21d70186dc8481f7612da6a9deb2e05"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/SecondScreenActivity.smali",
+   "old": null,
+   "new": "513f668ab6a47c614dc2b16c1b6fec0dfa547df9f7774d8224e383a97eff1d39"
+  },
+  {
+   "path": "smali_classes2/com/pokedaisy/app/SecondScreenWindow.smali",
+   "old": null,
+   "new": "382fa1ee2fef31d32a81c60850b5f066b13a966f5c80d0108e365017d34951d7"
+  }
+ ]
+}
