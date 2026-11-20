@@ -1,3 +1,7 @@
+## Notice: 
+
+This patch is now antiquated and will not work with newer versions of PokeDaisy. Official support for the AYANEO Pocket DS has been added in later releases. This patch is only relevant for version 1.3.3 and the repo is now archived.
+
 # PokeDaisy for the AYANEO Pocket DS
 
 A patch for [PokeDaisy](https://github.com/lidor30/pokedaisy) 1.3.3 that makes it use both screens of the AYANEO
